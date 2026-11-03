@@ -79,48 +79,71 @@ year,district,crime_category,cases
 
 Tips:
 
-- Each district needs at least 3 years of data to get a forecast.
-- District names are not case-sensitive. Some common alternate names also work (for example SAS Nagar and Mohali).
+* Each district needs at least 3 years of data to get a forecast.
+* District names are not case-sensitive. Some common alternate names also work (for example SAS Nagar and Mohali).
 
-## How to run it locally
+## How to run the project locally
 
-You need Git, Python 3.10+ and Node.js 20+.
+To run this project, you will need two separate terminal windows: one for the Python backend and one for the Node.js frontend. You also need Git, Python 3.10+ and Node.js 20+.
 
-**1. Clone the project**
+### 1. Clone the project
 
 ```bash
 git clone <your-repository-url>
 cd PunjabCrimeDashboard
 ```
 
-**2. Start the backend**
+### 2. Start the backend (Terminal 1)
 
-```bash
+Open a terminal, go to the cloned project root, and run these commands to set up and start the FastAPI server:
+
+```powershell
+# Navigate to the backend directory
 cd backend
+
+# Create a virtual environment
 python -m venv .venv
 
-# Windows (PowerShell)
-.venv\Scripts\Activate.ps1
+# Activate the virtual environment (Windows PowerShell)
+.\.venv\Scripts\Activate.ps1
 # Linux / macOS
-source .venv/bin/activate
+# source .venv/bin/activate
 
+# Install required Python packages
 pip install -r requirements.txt
+
+# Start the backend server
 uvicorn app.main:app --reload
 ```
 
-The API runs at `http://localhost:8000`, and the docs are at `http://localhost:8000/docs`.
+*The API will run at `http://127.0.0.1:8000`, and the docs are at `http://127.0.0.1:8000/docs`.*
 
-**3. Start the frontend** (in a second terminal)
+### 3. Start the frontend (Terminal 2)
 
-```bash
+Leave the backend terminal running. Open a **new** terminal window, go to the project root, and run:
+
+```powershell
+# Navigate to the frontend directory
 cd frontend
+
+# Install Node modules
 npm install
+
+# Start the development server
 npm run dev
 ```
 
-Open `http://localhost:5173` in your browser.
+*The frontend terminal will show a local URL (for example `http://localhost:5173`). Open this link in your browser to view the dashboard.*
 
 > The frontend expects the backend on port 8000. If you use a different port, create `frontend/.env` with `VITE_API_URL=http://localhost:<port>`.
+
+### Troubleshooting note for Windows users
+
+If you get a `metadata-generation-failed` or `pydantic-core` Rust error while installing the backend requirements on Python 3.13+, force pip to install the latest compatible versions by running:
+
+```powershell
+pip install fastapi uvicorn pandas pydantic python-multipart scikit-learn sqlalchemy slowapi fpdf2 --upgrade --no-cache-dir
+```
 
 ## Common problems
 
@@ -132,6 +155,6 @@ Open `http://localhost:5173` in your browser.
 
 ## Notes
 
-- The forecasts are simple trend estimates based on a few years of data, so treat them as a rough guide.
-- Recorded crime depends on how much is reported, so it is not the same as total crime.
-- This is for district-level analysis only. It should not be used to profile any person or community.
+* The forecasts are simple trend estimates based on a few years of data, so treat them as a rough guide.
+* Recorded crime depends on how much is reported, so it is not the same as total crime.
+* This is for district-level analysis only. It should not be used to profile any person or community.
